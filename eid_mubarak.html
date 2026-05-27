@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عيد مبارك سعيد</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #f5c842;
+    --gold2: #e8a020;
+    --green: #1a6b3c;
+    --green2: #0f4a2a;
+    --cream: #fdf6e3;
+    --red: #c0392b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    background: var(--green2);
+    overflow-x: hidden;
+    font-family: 'Fredoka One', cursive;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='28' font-size='28'%3E🌙%3C/text%3E%3C/svg%3E") 16 16, auto;
+  }
+
+  /* STARS */
+  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .star {
+    position: absolute; border-radius: 50%; background: white;
+    animation: twinkle var(--dur) ease-in-out infinite alternate;
+  }
+  @keyframes twinkle {
+    from { opacity: 0.1; transform: scale(0.8); }
+    to   { opacity: 0.9; transform: scale(1.2); }
+  }
+
+  /* LANTERNS */
+  .lanterns {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-around;
+    pointer-events: none; z-index: 1;
+  }
+  .lantern {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    animation: swing var(--s) ease-in-out infinite alternate;
+    transform-origin: top center;
+    filter: drop-shadow(0 0 12px rgba(245,200,66,0.8));
+  }
+  @keyframes swing {
+    from { transform: rotate(-15deg); }
+    to   { transform: rotate(15deg); }
+  }
+
+  /* PAGE */
+  .page {
+    position: relative; z-index: 2;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 80px 20px 40px;
+  }
+
+  /* TITLE */
+  .title-wrap { text-align: center; animation: fadeDown 1s ease both; margin-bottom: 0; }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .title-main {
+    font-family: 'Amiri', serif;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, #f5c842, #fff176, #f5c842, #e8a020);
+    background-size: 300%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+    line-height: 1.1;
+    filter: drop-shadow(0 2px 16px rgba(245,200,66,0.5));
+  }
+  @keyframes shimmer {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+  .title-sub {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.2rem, 3.5vw, 2.2rem);
+    color: #a8e6b0; margin-top: 6px; letter-spacing: 2px;
+    animation: fadeDown 1.2s ease both;
+  }
+  .emoji-row {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    margin-top: 8px;
+    animation: bounce 1.5s ease-in-out infinite; display: block;
+  }
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* ===== SHEEP SCENE ===== */
+  .sheep-scene {
+    position: relative;
+    width: min(480px, 92vw);
+    height: 160px;
+    margin-top: 18px;
+    overflow: visible;
+  }
+
+  /* ground strip */
+  .ground {
+    position: absolute;
+    bottom: 0; left: -20px; right: -20px;
+    height: 36px;
+    background: linear-gradient(180deg, #1a7a40 0%, #0d4f28 100%);
+    border-radius: 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .ground::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 40px;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 8px,
+      transparent 8px, transparent 24px
+    );
+  }
+
+  /* grass blades */
+  .grass-blade {
+    position: absolute;
+    bottom: 30px;
+    width: 4px;
+    background: #2ea855;
+    border-radius: 4px 4px 0 0;
+    transform-origin: bottom center;
+    animation: sway var(--gs) ease-in-out infinite alternate;
+  }
+  @keyframes sway {
+    from { transform: rotate(-8deg); }
+    to   { transform: rotate(8deg); }
+  }
+
+  /* sheep wrapper — slides in from side */
+  .sheep-wrap {
+    position: absolute;
+    bottom: 30px;
+    /* start off-screen right */
+    right: -200px;
+    animation: sheepSlideIn 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards;
+    cursor: pointer;
+    z-index: 10;
+  }
+  @keyframes sheepSlideIn {
+    0%   { right: -200px; transform: scaleX(1); }
+    40%  { right: 38%; transform: scaleX(1); }
+    55%  { right: 36%; transform: scaleX(1) rotate(-4deg); }
+    70%  { right: 38%; transform: scaleX(1) rotate(0deg); }
+    85%  { right: 36.5%; transform: scaleX(1) rotate(-2deg); }
+    100% { right: 37%; transform: scaleX(1) rotate(0deg); }
+  }
+
+  /* sheep SVG sizing */
+  .sheep-svg {
+    width: clamp(90px, 20vw, 120px);
+    height: auto;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4));
+    animation: sheepIdle 2.2s ease-in-out infinite 2.5s;
+  }
+  @keyframes sheepIdle {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    30%     { transform: translateY(-5px) rotate(-2deg); }
+    60%     { transform: translateY(-3px) rotate(1deg); }
+  }
+
+  /* speech bubble — appears after sheep arrives */
+  .speech-bubble {
+    position: absolute;
+    bottom: 115px;
+    right: calc(37% + 10px);
+    background: white;
+    border-radius: 16px;
+    padding: 10px 16px;
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    color: var(--green2);
+    font-family: 'Fredoka One', cursive;
+    white-space: nowrap;
+    opacity: 0;
+    transform: scale(0.5) translateY(10px);
+    transform-origin: bottom right;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    animation: bubblePop 0.4s cubic-bezier(0.34,1.56,0.64,1) 2.6s forwards;
+    z-index: 11;
+    pointer-events: none;
+  }
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px; right: 20px;
+    border: 6px solid transparent;
+    border-top-color: white;
+  }
+  @keyframes bubblePop {
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .bubble-text {
+    animation: bubbleWiggle 1.5s ease-in-out infinite 3.2s;
+  }
+  @keyframes bubbleWiggle {
+    0%,100% { transform: scale(1); }
+    50%     { transform: scale(1.05); }
+  }
+
+  /* click hint arrow below sheep */
+  .click-hint {
+    position: absolute;
+    bottom: -8px;
+    right: calc(37% + 42px);
+    opacity: 0;
+    animation: hintFade 0.5s ease 3.4s forwards;
+    pointer-events: none;
+    z-index: 11;
+    font-size: 1.4rem;
+  }
+  @keyframes hintFade {
+    to { opacity: 1; }
+  }
+  .click-hint span {
+    display: block;
+    animation: arrowBounce 0.8s ease-in-out infinite;
+    color: var(--gold);
+  }
+  @keyframes arrowBounce {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(4px); }
+  }
+
+  /* sheep hover/clicked states */
+  .sheep-wrap:hover .sheep-svg {
+    animation: sheepHop 0.4s ease-in-out infinite;
+  }
+  @keyframes sheepHop {
+    0%,100% { transform: translateY(0) scale(1); }
+    50%     { transform: translateY(-12px) scale(1.05); }
+  }
+  .sheep-wrap.clicked .sheep-svg {
+    animation: sheepSpin 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  @keyframes sheepSpin {
+    0%   { transform: rotate(0deg) scale(1); }
+    40%  { transform: rotate(-20deg) scale(1.1) translateY(-15px); }
+    70%  { transform: rotate(10deg) scale(1.08) translateY(-8px); }
+    100% { transform: rotate(0deg) scale(1) translateY(0); }
+  }
+
+  /* stars burst from sheep on click */
+  .star-burst {
+    position: absolute;
+    bottom: 80px;
+    right: calc(37% + 10px);
+    pointer-events: none;
+    z-index: 12;
+  }
+  .burst-star {
+    position: absolute;
+    font-size: 1.2rem;
+    opacity: 0;
+  }
+
+  /* ===== BUTTON — revealed after sheep click ===== */
+  .gift-btn-wrap {
+    margin-top: 28px;
+    opacity: 0;
+    transform: translateY(30px) scale(0.8);
+    transition: none;
+    pointer-events: none;
+  }
+  .gift-btn-wrap.revealed {
+    animation: btnReveal 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    pointer-events: auto;
+  }
+  @keyframes btnReveal {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .gift-btn {
+    position: relative;
+    background: linear-gradient(135deg, #f5c842, #e8a020);
+    border: none;
+    border-radius: 50px;
+    padding: 18px 48px;
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: var(--green2);
+    cursor: pointer;
+    box-shadow: 0 6px 32px rgba(245,200,66,0.5), 0 2px 0 #a07010;
+    transition: transform 0.15s, box-shadow 0.15s;
+    overflow: hidden;
+    animation: pulsBtn 2s ease-in-out infinite;
+  }
+  @keyframes pulsBtn {
+    0%,100% { box-shadow: 0 6px 32px rgba(245,200,66,0.5), 0 2px 0 #a07010; }
+    50%      { box-shadow: 0 6px 52px rgba(245,200,66,0.95), 0 2px 0 #a07010; }
+  }
+  .gift-btn:hover {
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 12px 40px rgba(245,200,66,0.7), 0 2px 0 #a07010;
+    animation: none;
+  }
+  .gift-btn:active { transform: translateY(2px) scale(0.97); }
+  .gift-btn .btn-icon { margin-left: 10px; display: inline-block; animation: wiggle 1.5s ease-in-out infinite; }
+  @keyframes wiggle {
+    0%,100% { transform: rotate(0deg); }
+    25%     { transform: rotate(-15deg); }
+    75%     { transform: rotate(15deg); }
+  }
+  .gift-btn::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%);
+    opacity: 0; transform: scale(0); transition: 0.4s;
+  }
+  .gift-btn:active::after { opacity: 1; transform: scale(2); transition: 0s; }
+
+  /* MODAL */
+  .overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(10,35,20,0.85); z-index: 100;
+    align-items: center; justify-content: center;
+    backdrop-filter: blur(6px);
+    animation: fadeIn 0.3s ease;
+  }
+  .overlay.show { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .letter {
+    position: relative;
+    background: var(--cream);
+    border-radius: 24px; padding: 50px 40px 40px;
+    max-width: 520px; width: 92%; text-align: center;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    animation: letterPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+    overflow: hidden;
+  }
+  @keyframes letterPop {
+    from { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+    to   { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+  .letter::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(0deg, rgba(245,200,66,0.07) 0px, transparent 1px, transparent 30px),
+      repeating-linear-gradient(90deg, rgba(245,200,66,0.07) 0px, transparent 1px, transparent 30px);
+    border-radius: 24px; pointer-events: none;
+  }
+  .letter-emoji { font-size: 3.5rem; display: block; margin-bottom: 16px; animation: floatEmoji 2s ease-in-out infinite; }
+  @keyframes floatEmoji {
+    0%,100% { transform: translateY(0) rotate(-5deg); }
+    50%     { transform: translateY(-12px) rotate(5deg); }
+  }
+  .letter-title { font-family: 'Amiri', serif; font-size: 1.6rem; font-weight: 700; color: var(--green2); margin-bottom: 16px; }
+  .letter-body { font-family: 'Amiri', serif; font-size: 1.05rem; color: #444; line-height: 1.9; direction: ltr; text-align: left; }
+  .letter-body.hidden { display: none; }
+
+  .open-gift-btn {
+    margin-top: 28px;
+    background: linear-gradient(135deg, var(--green), #2ecc71);
+    border: none; border-radius: 50px; padding: 14px 36px;
+    font-family: 'Fredoka One', cursive; font-size: 1.15rem;
+    color: white; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(30,160,70,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: block; width: 100%;
+  }
+  .open-gift-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(30,160,70,0.6); }
+
+  .next-year-msg {
+    display: none; margin-top: 20px; padding: 18px 24px;
+    background: linear-gradient(135deg, #fff9e6, #fff3cc);
+    border-radius: 16px; border: 2px dashed var(--gold2);
+    font-family: 'Amiri', serif; font-size: 1.05rem; color: #7a4f00; line-height: 1.8;
+  }
+  .next-year-msg.show { display: block; }
+  .next-year-msg strong { display: block; font-size: 1.3rem; color: var(--red); margin-bottom: 6px; }
+
+  .close-btn {
+    position: absolute; top: 14px; right: 16px;
+    background: none; border: none; font-size: 1.6rem; cursor: pointer;
+    color: #aaa; transition: color 0.2s, transform 0.2s;
+  }
+  .close-btn:hover { color: var(--red); transform: scale(1.3) rotate(90deg); }
+
+  /* CONFETTI */
+  .confetti-container { position: fixed; inset: 0; pointer-events: none; z-index: 999; overflow: hidden; }
+  .confetti-piece {
+    position: absolute; top: -20px;
+    width: var(--w); height: var(--h);
+    background: var(--c); border-radius: var(--r);
+    animation: fall var(--dur) linear forwards; opacity: 0.9;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1; }
+    80%  { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg) translateX(var(--dx)); opacity: 0; }
+  }
+
+  /* FLOATERS */
+  .floaters { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+  .floater {
+    position: absolute; bottom: -60px;
+    font-size: var(--sz);
+    animation: floatUp var(--dur) linear forwards;
+    left: var(--lft); opacity: 0.7;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+  }
+
+  .deco-crescent { position: fixed; font-size: 6rem; opacity: 0.06; pointer-events: none; z-index: 0; }
+  .deco-crescent.tl { top: 10%; left: 2%; animation: slowSpin 20s linear infinite; }
+  .deco-crescent.br { bottom: 10%; right: 2%; animation: slowSpin 25s linear infinite reverse; }
+  @keyframes slowSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="deco-crescent tl">☪️</div>
+<div class="deco-crescent br">🌙</div>
+<div class="floaters" id="floaters"></div>
+<div class="confetti-container" id="confetti"></div>
+<div class="lanterns" id="lanterns"></div>
+
+<div class="page">
+  <!-- TITLE -->
+  <div class="title-wrap">
+    <div class="title-main"> عيد مبارك سعيد سهام</div>
+    <div class="title-sub">✨ Aïd Moubarak Saïd SIHAM ✨</div>
+    <span class="emoji-row">🌙 🕌 🌟 🎁 🌙</span>
+  </div>
+
+  <!-- SHEEP SCENE -->
+  <div class="sheep-scene" id="sheepScene">
+    <div class="ground"></div>
+
+    <!-- grass blades generated by JS -->
+    <div id="grassContainer"></div>
+
+    <!-- speech bubble -->
+    <div class="speech-bubble">
+      <span class="bubble-text">🐑 Click moi pour ton cadeau! 🎁</span>
+    </div>
+
+    <!-- click hint -->
+    <div class="click-hint"><span>👇</span></div>
+
+    <!-- star burst container -->
+    <div class="star-burst" id="starBurst"></div>
+
+    <!-- THE SHEEP (clickable) -->
+    <div class="sheep-wrap" id="sheepWrap" onclick="sheepClicked()">
+      <svg class="sheep-svg" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- body wool (fluffy cloud shape) -->
+        <ellipse cx="58" cy="52" rx="38" ry="28" fill="#f0ede8"/>
+        <circle cx="32" cy="48" r="18" fill="#f0ede8"/>
+        <circle cx="44" cy="36" r="16" fill="#f0ede8"/>
+        <circle cx="60" cy="32" r="17" fill="#f0ede8"/>
+        <circle cx="76" cy="36" r="16" fill="#f0ede8"/>
+        <circle cx="84" cy="48" r="16" fill="#f0ede8"/>
+        <circle cx="78" cy="60" r="13" fill="#f0ede8"/>
+        <circle cx="36" cy="60" r="13" fill="#f0ede8"/>
+        <!-- wool shading -->
+        <ellipse cx="58" cy="52" rx="38" ry="28" fill="none" stroke="#d8d4ce" stroke-width="1.5" opacity="0.4"/>
+        <!-- belly -->
+        <ellipse cx="58" cy="62" rx="24" ry="12" fill="#e8e4de"/>
+        <!-- head -->
+        <ellipse cx="90" cy="44" rx="16" ry="14" fill="#d4a882"/>
+        <!-- ear -->
+        <ellipse cx="98" cy="35" rx="6" ry="9" fill="#c4987a" transform="rotate(20 98 35)"/>
+        <ellipse cx="98" cy="35" rx="3.5" ry="6" fill="#e8b89a" transform="rotate(20 98 35)"/>
+        <!-- eye -->
+        <circle cx="96" cy="42" r="4" fill="#2c1810"/>
+        <circle cx="97.5" cy="40.5" r="1.5" fill="white"/>
+        <!-- nostril -->
+        <circle cx="103" cy="49" r="2" fill="#b8866a"/>
+        <circle cx="107" cy="48" r="1.5" fill="#b8866a"/>
+        <!-- smile -->
+        <path d="M101 52 Q105 55 109 52" fill="none" stroke="#9a6a50" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- legs -->
+        <rect x="38" y="74" width="9" height="22" rx="4" fill="#d4a882"/>
+        <rect x="50" y="74" width="9" height="22" rx="4" fill="#d4a882"/>
+        <rect x="64" y="74" width="9" height="22" rx="4" fill="#d4a882"/>
+        <rect x="76" y="74" width="9" height="22" rx="4" fill="#d4a882"/>
+        <!-- hooves -->
+        <rect x="37" y="90" width="11" height="8" rx="4" fill="#4a3020"/>
+        <rect x="49" y="90" width="11" height="8" rx="4" fill="#4a3020"/>
+        <rect x="63" y="90" width="11" height="8" rx="4" fill="#4a3020"/>
+        <rect x="75" y="90" width="11" height="8" rx="4" fill="#4a3020"/>
+        <!-- tail -->
+        <circle cx="22" cy="58" r="8" fill="#f0ede8"/>
+        <circle cx="16" cy="54" r="5" fill="#f0ede8"/>
+        <!-- wool texture dots -->
+        <circle cx="45" cy="44" r="2.5" fill="#e0dcd6" opacity="0.6"/>
+        <circle cx="58" cy="38" r="2.5" fill="#e0dcd6" opacity="0.6"/>
+        <circle cx="70" cy="44" r="2.5" fill="#e0dcd6" opacity="0.6"/>
+        <circle cx="52" cy="55" r="2.5" fill="#e0dcd6" opacity="0.6"/>
+        <circle cx="65" cy="57" r="2.5" fill="#e0dcd6" opacity="0.6"/>
+        <!-- Eid ribbon on back -->
+        <ellipse cx="50" cy="35" rx="10" ry="5" fill="#f5c842" opacity="0.9" transform="rotate(-15 50 35)"/>
+        <path d="M42 32 L50 30 L58 33" fill="none" stroke="#e8a020" stroke-width="1.5"/>
+        <circle cx="50" cy="31" r="3" fill="#e8a020"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- GIFT BUTTON (revealed after sheep click) -->
+  <div class="gift-btn-wrap" id="giftBtnWrap">
+    <button class="gift-btn" onclick="openLetter()">
+      <span class="btn-icon">🎁</span> Clic pour ton cadeau !
+    </button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="letter" id="letter">
+    <button class="close-btn" onclick="closeOverlay()">✕</button>
+    <span class="letter-emoji">💌</span>
+    <div class="letter-title">رسالة خاصة ليك 💛</div>
+    <div class="letter-body" id="loremBody">
+      <p>Aid mubarak saiid bssa7a osalama obach matmniti naja7 inshallah ochi motor inshallah 😂😂.</p>
+      <br>
+      <!-- <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> -->
+    </div>
+    <div id="giftSection"></div>
+    <div class="next-year-msg" id="nextYearMsg">
+      <strong>😂 Haha, makaynch!</strong>
+      Mzl ma ghadi takhdi ur gift ta l3am jay... 🎁<br>
+      hhhhh l3am jay 3awdi clicker 3la same button bach takhdi ur gift 👀<br>
+      <em style="font-size:0.9rem; color:#999;">— Sabr jamil 😇</em>
+    </div>
+    <button class="open-gift-btn" id="giftOpenBtn" onclick="handleGiftBtn()">
+      🎁 Open ur gift
+    </button>
+  </div>
+</div>
+
+<script>
+  // STARS
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 3 + 1;
+    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--dur:${1.5+Math.random()*3}s;animation-delay:${Math.random()*3}s;`;
+    starsEl.appendChild(s);
+  }
+
+  // LANTERNS
+  const lanternsEl = document.getElementById('lanterns');
+  ['🪔','🏮','🪔','🏮','🪔','🏮','🪔'].forEach((e,i) => {
+    const l = document.createElement('div');
+    l.className = 'lantern';
+    l.textContent = e;
+    l.style.cssText = `--s:${2+Math.random()*2}s;animation-delay:${i*0.3}s;padding-top:${10+Math.random()*20}px;`;
+    lanternsEl.appendChild(l);
+  });
+
+  // GRASS BLADES
+  const grassCont = document.getElementById('grassContainer');
+  for (let i = 0; i < 18; i++) {
+    const g = document.createElement('div');
+    g.className = 'grass-blade';
+    const h = 12 + Math.random() * 20;
+    g.style.cssText = `left:${3+i*5.5}%;height:${h}px;--gs:${1+Math.random()*1.5}s;animation-delay:${Math.random()}s;`;
+    grassCont.appendChild(g);
+  }
+
+  // FLOATERS
+  const floaterEmojis = ['🌙','⭐','✨','🌟','🎊','🎁','🕌','💛','🌺','🎉'];
+  function spawnFloater() {
+    const f = document.createElement('div');
+    f.className = 'floater';
+    f.textContent = floaterEmojis[Math.floor(Math.random()*floaterEmojis.length)];
+    const dur = 8 + Math.random() * 10;
+    f.style.cssText = `--sz:${1.2+Math.random()*2}rem;--dur:${dur}s;--lft:${Math.random()*95}%;`;
+    document.getElementById('floaters').appendChild(f);
+    setTimeout(() => f.remove(), dur * 1000);
+  }
+  spawnFloater();
+  setInterval(spawnFloater, 1200);
+
+  // CONFETTI
+  const confColors = ['#f5c842','#e8a020','#ff6b9d','#4fc3f7','#2ecc71','#9b59b6','#ff5722','#fff176','#a8e6b0'];
+  function launchConfetti(n = 80) {
+    const container = document.getElementById('confetti');
+    for (let i = 0; i < n; i++) {
+      setTimeout(() => {
+        const c = document.createElement('div');
+        c.className = 'confetti-piece';
+        const w = 6+Math.random()*10, h = 8+Math.random()*14;
+        const dur = 2+Math.random()*2.5;
+        c.style.cssText = `--w:${w}px;--h:${h}px;--c:${confColors[Math.floor(Math.random()*confColors.length)]};--r:${Math.random()>0.5?'50%':'2px'};--dur:${dur}s;--dx:${(Math.random()-0.5)*300}px;left:${Math.random()*100}%;animation-delay:${Math.random()*0.5}s;`;
+        container.appendChild(c);
+        setTimeout(() => c.remove(), (dur+0.5)*1000);
+      }, i * 25);
+    }
+  }
+
+  // SHEEP CLICK
+  let sheepHasBeenClicked = false;
+  const burstEmojis = ['✨','⭐','🌟','💥','🎉','💛','🌙'];
+
+  function sheepClicked() {
+    if (sheepHasBeenClicked) return;
+    sheepHasBeenClicked = true;
+    const wrap = document.getElementById('sheepWrap');
+    wrap.classList.add('clicked');
+    wrap.style.pointerEvents = 'none';
+
+    // mini confetti burst
+    launchConfetti(40);
+
+    // star emojis burst around sheep
+    const burst = document.getElementById('starBurst');
+    for (let i = 0; i < 8; i++) {
+      const st = document.createElement('div');
+      st.className = 'burst-star';
+      st.textContent = burstEmojis[i % burstEmojis.length];
+      const angle = (i / 8) * 360;
+      const dist = 50 + Math.random() * 30;
+      const rad = angle * Math.PI / 180;
+      st.style.cssText = `
+        left:50%; top:50%;
+        animation: none;
+        transition: all 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+      `;
+      burst.appendChild(st);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          st.style.transform = `translate(${Math.cos(rad)*dist}px, ${Math.sin(rad)*dist}px)`;
+          st.style.opacity = '1';
+          setTimeout(() => { st.style.opacity = '0'; }, 400);
+          setTimeout(() => st.remove(), 700);
+        });
+      });
+    }
+
+    // show button after short delay
+    setTimeout(() => {
+      const btnWrap = document.getElementById('giftBtnWrap');
+      btnWrap.classList.add('revealed');
+    }, 600);
+
+    // sheep does a happy dance then settles
+    setTimeout(() => {
+      wrap.classList.remove('clicked');
+    }, 700);
+  }
+
+  // MODAL
+  let giftClickCount = 0;
+
+  function openLetter() {
+    document.getElementById('overlay').classList.add('show');
+    launchConfetti(60);
+    document.getElementById('loremBody').classList.remove('hidden');
+    document.getElementById('giftSection').innerHTML = '';
+    document.getElementById('nextYearMsg').classList.remove('show');
+    document.getElementById('giftOpenBtn').style.display = 'block';
+    document.getElementById('giftOpenBtn').textContent = '🎁 Open ur gift';
+    giftClickCount = 0;
+  }
+
+  function closeOverlay() {
+    document.getElementById('overlay').classList.remove('show');
+  }
+  document.getElementById('overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeOverlay();
+  });
+
+  function handleGiftBtn() {
+    giftClickCount++;
+    if (giftClickCount === 12) {
+      document.getElementById('loremBody').classList.add('hidden');
+      document.getElementById('nextYearMsg').classList.add('show');
+      document.getElementById('giftOpenBtn').textContent = '🎁 Please, open my gift!!';
+      launchConfetti(30);
+    } else {
+      document.getElementById('nextYearMsg').classList.remove('show');
+      const gs = document.getElementById('giftSection');
+      // gs.innerHTML = `
+      //   <div style="padding:20px;background:linear-gradient(135deg,#fff9e6,#fff3cc);border-radius:16px;border:2px dashed #e8a020;margin-top:10px;">
+      //     <div style="font-size:3rem;margin-bottom:10px;">😂🎉</div>
+      //     <div style="font-family:'Amiri',serif;font-size:1.2rem;color:#7a4f00;line-height:1.9;direction:ltr;text-align:center;">
+      //       <strong style="font-size:1.5rem;color:#c0392b;display:block;margin-bottom:8px;">Haha April Fool! 🐑</strong>
+      //       Ma ghadi takhdi <em>walo</em> ta l3am jay... 🫠<br>
+      //       Kool wait 3am jay inshallah! 🌙✨<br><br>
+      //       <span style="font-size:0.9rem;color:#999;">— Aïd Moubarak 3lik anyway 💛</span>
+      //     </div>
+      //   </div>`;
+      document.getElementById('giftOpenBtn').style.display = 'none';
+      launchConfetti(80);
+    }
+  }
+</script>
+</body>
+</html>
